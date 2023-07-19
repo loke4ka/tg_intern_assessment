@@ -1,0 +1,39 @@
+{
+  "sessions": [
+    {
+      "id": "1883424166:1883424166",
+      "data": {
+        "user": {
+          "_id": "64b65a5ffde52484c7f3a1ac",
+          "chatId": 827932852,
+          "firstName": "Bakytbek",
+          "role": "admin",
+          "__v": 0
+        },
+        "evaluatorId": 1883424166,
+        "markType": null,
+        "mark": null,
+        "step": 3,
+        "currentCategory": "Code"
+      }
+    },
+    {
+      "id": "531923094:531923094",
+      "data": {
+        "user": null,
+        "evaluatorId": 531923094,
+        "step": 1,
+        "currentCategory": "Functional"
+      }
+    },
+    {
+      "id": "827932852:827932852",
+      "data": {
+        "user": null,
+        "evaluatorId": 827932852,
+        "step": 1,
+        "currentCategory": "Functional"
+      }
+    }
+  ]
+}
