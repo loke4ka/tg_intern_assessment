@@ -7,6 +7,7 @@ import {InlineKeyboardButton} from "telegraf/typings/markup";
 import {bot} from "../../bot";
 import {BotSendMessage} from "../../bot-send-message";
 import {messageQueue} from "../queues/send-message-queue";
+import {session} from "telegraf";
 
 export class Telegram {
     public static async startHandler(ctx: any) {
@@ -121,17 +122,30 @@ export class Telegram {
 
         MarkData.saveMark(mark);
         this.nextCategory(ctx);
+
     }
 
     public static async showTopUsers(ctx: any) {
-        const topUsers = await MarkData.topInternByMarkSum();
-        if (topUsers.length > 0) {
-            const resultMessage = topUsers
-                .map((user, index) => `${index + 1}. ${user?.firstName || ""} ${user?.lastName || ""}: ${user.totalRating}`)
-                .join('\n');
-            ctx.reply(`Топ пользователей по наивысшей оценке:\n\n${resultMessage}`);
+
+
+        const chatId: string = ctx.chat.id;
+        let existingUser = await UserData.getUserByChatId(chatId);
+
+        console.log(chatId, existingUser);
+
+        // @ts-ignore
+        if (existingUser.role == "admin") {
+            const topUsers = await MarkData.topInternByMarkSum();
+            if (topUsers.length > 0) {
+                const resultMessage = topUsers
+                    .map((user, index) => `${index + 1}. ${user?.firstName || ""} ${user?.lastName || ""}: ${user.totalRating}`)
+                    .join('\n');
+                ctx.reply(`Топ пользователей по наивысшей оценке:\n\n${resultMessage}`);
+            } else {
+                ctx.reply('Нет данных для отображения');
+            }
         } else {
-            ctx.reply('Нет данных для отображения');
+            await BotSendMessage.sendMessage(chatId, 'Вы не админ! Оценки не доступны');
         }
     }
 }
